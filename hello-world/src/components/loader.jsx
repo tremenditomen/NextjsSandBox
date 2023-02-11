@@ -1,6 +1,6 @@
 export const Loader = () => {
   return (
-    <div className="h-screen w-full">
+    <div className="h-screen w-full transform transition-all duration-150 ease-in-out">
     <div role="status" className=" flex items-center flex-col">
       <h1 className="text-3xl font-bold underline ">
         testing out apis with ajax{" "}
