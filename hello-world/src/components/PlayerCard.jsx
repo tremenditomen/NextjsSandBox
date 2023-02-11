@@ -3,6 +3,7 @@ import { useState } from "react";
 import RankIcon from "./RankIcon";
 import { handleClick } from "@/helpers/handles";
 import { Loader } from "./loader";
+import { motion } from "framer-motion";
 
 const PlayerCard = () => {
   const [currentInput, setCurrentInput] = useState("");
@@ -33,6 +34,7 @@ const PlayerCard = () => {
             value={currentInput}
           ></input>
           <button
+            id="search"
             className="text-white  right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-5"
             onClick={() =>
               handleClick(
@@ -52,8 +54,17 @@ const PlayerCard = () => {
             {" "}
             search
           </button>
-
-          <div className="flex  flex-col border-2 items-center border-black rounded-lg  dark:bg-gray-700 dark:text-white focus:ring-blue-500 mt-5 w-2/5 p-5">
+         
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{
+              type: "spring",
+              stiffness: 260,
+              damping: 20
+            }}
+            className="flex  flex-col border-2 items-center border-black rounded-lg  dark:bg-gray-700 dark:text-white focus:ring-blue-500 mt-5 w-2/5 p-5  transform transition-all duration-150 ease-out scale-0"
+          >
             {JSON.stringify(playerData) !== "{}" ? (
               <>
                 {" "}
@@ -84,7 +95,7 @@ const PlayerCard = () => {
                 <p>we dont have player data</p>
               </>
             )}
-          </div>
+          </motion.div>
         </div>
       )}
     </>
