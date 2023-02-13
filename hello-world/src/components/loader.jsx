@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 export const Loader = () => {
   return (
     <div className="h-screen w-full transform transition-all duration-150 ease-in-out">
@@ -6,7 +7,7 @@ export const Loader = () => {
         testing out apis with ajax{" "}
       </h1>
       </div>
-      <div className="flex items-center justify-center h-screen w-full">
+      <motion.div  animate={{ y: 100 }}className="flex items-center justify-center h-screen w-full">
         <svg
           aria-hidden="true"
           class="w-20 h-20 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
@@ -24,7 +25,7 @@ export const Loader = () => {
           />
         </svg>
         <span class="sr-only">Loading...</span>
-      </div>
+      </motion.div>
     </div>
   );
 };
