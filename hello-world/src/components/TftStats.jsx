@@ -1,12 +1,25 @@
-import { useState } from "react";
-// import axios from 'axios'
-import RankIcon from "./RankIcon";
-import { handleClick } from "@/helpers/handles";
-import { Loader } from "./loader";
-import { motion } from "framer-motion";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { tftHandleClick } from "@/helpers/handles";
+import { motion } from "framer-motion";
+import RankIcon from "./RankIcon";
 
-const PlayerCard = () => {
+
+
+
+const TftStats = () => {
+  const [tftRank, setTftRank] = useState("");
+  const [tftWins, setTftWins] = useState(0);
+  const [tftLoses, setTftLoses] = useState(0);
+  const [tftRankedPoints, setTftRankedPoints] = useState(0);
+  const [playerName , setPlayerName] = useState("")
+  const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter();
+  const query = router.query;
+  const id = query.id;
+
   const list = {
     visible: {
       opacity: 1,
@@ -27,54 +40,18 @@ const PlayerCard = () => {
     visible: { opacity: 1, x: 0 },
     hidden: { opacity: 0, x: -100 },
   };
-  const [currentInput, setCurrentInput] = useState("");
-  const [playerData, setPlayerData] = useState({});
-  const [rankedId, setRankedId] = useState({id: ''});
-  const [rank, setRank] = useState("");
-  const [tier, setTier] = useState("");
-  const [rankPoints, setRankPoints] = useState("");
-  const [wins, setWins] = useState(0);
-  const [lost, setLost] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [summonerId , setSummonerId] = useState({id:''})
-  const [puuId , setPuuId] = useState({id:''})
 
-
+  tftHandleClick(setTftRank, id,setTftWins,setTftLoses,setTftRankedPoints,setPlayerName);
+       
   return (
     <>
-      {isLoading ? (
+      {/* {isLoading ? (
         <Loader />
-      ) : (
+      ) : ( */}
         <div className="flex justify-center flex-col border-2 items-center border-black w-full">
           <h1 className="text-3xl font-bold underline">
             testing out apis with ajax{" "}
           </h1>
-          <input
-            className="block p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mt-3"
-            type={"text"}
-            placeholder={"enter LOL name here"}
-            key="gamertag"
-            onChange={(e) => setCurrentInput(e.target.value)}
-            value={currentInput}
-            onKeyDown={(event) =>
-              handleClick(
-                currentInput,
-                setCurrentInput,
-                setRank,
-                setTier,
-                setRankPoints,
-                setWins,
-                setLost,
-                setPlayerData,
-                setRankedId,
-                setIsLoading,
-                setSummonerId,
-                setPuuId,
-                event
-              )
-            }
-          ></input>
-          
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
@@ -85,7 +62,7 @@ const PlayerCard = () => {
             }}
             className="flex  flex-col border-2 items-center border-black rounded-lg  dark:bg-gray-700 dark:text-white focus:ring-blue-500 mt-2 w-160 p-10  transform transition-all duration-150 ease-out scale-100"
           >
-            {JSON.stringify(playerData) !== "{}" ? (
+            
               <>
                 {" "}
                 <div className="flex flex-col items-center justify-center">
@@ -95,41 +72,35 @@ const PlayerCard = () => {
                       whileHover={{ scale: 1.2 }}
                       className="flex justify-center"
                     >
-                      <img
-                        className="rounded-lg"
-                        width={"100"}
-                        length={"100"}
-                        alt={"Profile Icon"}
-                        src={`http://ddragon.leagueoflegends.com/cdn/13.1.1/img/profileicon/${playerData.profileIconId}.png`}
-                      ></img>
+                      
                     </motion.li>
                     <motion.li
                       variants={item}
                       whileHover={{ scale: 1.2 }}
                       className=" border-2 rounded-lg dark:bg-gray-800 p-3  mt-2 mb-2 dar:text-white w-full hover:bg-gray-600"
                     >
-                      {playerData.name}
+                      {playerName}
+                    </motion.li>
+                    {/* <motion.li
+                      variants={item}
+                      whileHover={{ scale: 1.2 }}
+                      className=" border-2 rounded-lg dark:bg-gray-800 p-3  mt-3 dar:text-white w-full hover:bg-gray-600 "
+                    >
+                      summoner Level : {}{" "}
+                    </motion.li> */}
+                    <motion.li
+                      variants={item}
+                      whileHover={{ scale: 1.2 }}
+                      className=" border-2 rounded-lg dark:bg-gray-800 p-3  mt-3 dar:text-white w-full hover:bg-gray-600 "
+                    >
+                      Total games : {tftWins + tftLoses}
                     </motion.li>
                     <motion.li
                       variants={item}
                       whileHover={{ scale: 1.2 }}
                       className=" border-2 rounded-lg dark:bg-gray-800 p-3  mt-3 dar:text-white w-full hover:bg-gray-600 "
                     >
-                      summoner Level : {playerData.summonerLevel}{" "}
-                    </motion.li>
-                    <motion.li
-                      variants={item}
-                      whileHover={{ scale: 1.2 }}
-                      className=" border-2 rounded-lg dark:bg-gray-800 p-3  mt-3 dar:text-white w-full hover:bg-gray-600 "
-                    >
-                      Total games : {wins + lost}
-                    </motion.li>
-                    <motion.li
-                      variants={item}
-                      whileHover={{ scale: 1.2 }}
-                      className=" border-2 rounded-lg dark:bg-gray-800 p-3  mt-3 dar:text-white w-full hover:bg-gray-600 "
-                    >
-                      Games Won: {wins} -- Games Lost: {lost}{" "}
+                      Games Won: {tftWins} -- Games Lost: {tftLoses}{" "}
                     </motion.li>
                     <motion.li
                       variants={item}
@@ -137,40 +108,44 @@ const PlayerCard = () => {
                       className=" border-2 rounded-lg dark:bg-gray-800 p-3  mt-3 dar:text-white w-full hover:bg-gray-600 "
                     >
                       winrate percentage{" "}
-                      {((wins / (wins + lost)) * 100).toFixed(2)}%
+                      {((tftWins / (tftWins + tftLoses)) * 100).toFixed(2)}%
                     </motion.li>
                     <motion.li
                       variants={item}
                       whileHover={{ scale: 1.2 }}
                       className=" border-2 rounded-lg dark:bg-gray-800 p-3  mt-3 dar:text-white w-full hover:bg-gray-600 "
                     >
-                      Ranked : {tier} {rank} -- {rankPoints}LP
+                      Ranked : {tftRank} -- {tftRankedPoints}LP
                     </motion.li>
                     <motion.li
                       variants={item}
                       whileHover={{ scale: 1.2 }}
                       className="flex justify-center"
                     >
-                      <RankIcon tier={tier} />
+                      <RankIcon tier={tftRank} />
                     </motion.li>
-                    <motion.li>
-                      <button className=" text-white  right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-2">
-                      <Link href={{pathname : "/tft", query:summonerId }}> tft </Link>
-                      </button>
+                    <motion.li
+                      variants={item}
+                      whileHover={{ scale: 1.2 }}
+                      className="flex justify-center"
+                    >
+                         <button className="text-white  right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-2">
+          <Link href="/"> Home </Link>
+        </button>
                     </motion.li>
+
+                
                   </motion.ul>
                 </div>
               </>
-            ) : (
-              <>
-                <p>we dont have player data</p>
-              </>
-            )}
+            
+             
+            
           </motion.div>
         </div>
-      )}
+      {/* )} */}
     </>
   );
 };
 
-export default PlayerCard;
+export default TftStats;

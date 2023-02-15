@@ -9,7 +9,7 @@ import MasterEmblem from '../../public/emblems/Emblem_Master.png'
 import ChallengerEmblem from '../../public/emblems/Emblem_Challenger.png'
 
 const TierImage = ({tier}) => {
-  console.log(tier)
+  // console.log(tier)
 
     const whichImage = (tier) => {
         switch(tier){
@@ -23,7 +23,7 @@ const TierImage = ({tier}) => {
             return SilverEmblem
             
             case  "GOLD":
-              console.log('in case gold')
+              // console.log('in case gold')
             return GoldEmblem
             case("PLATINUM"):
             return PlatinumEmblem
@@ -37,12 +37,12 @@ const TierImage = ({tier}) => {
             case("CHALLANGER"):
             return ChallengerEmblem
             default:
-              console.log('in default')
+              // console.log('in default')
         
         }
     }
 
-    console.log("which image",whichImage(tier))
+    // console.log("which image",whichImage(tier))
   return (
     <Image
       src={whichImage(tier)}
